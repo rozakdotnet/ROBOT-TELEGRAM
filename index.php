@@ -1,14 +1,14 @@
 <?php
 
-require_once '/var/www/dev.rozak.net/utara/inc/robot.php';
+require_once '/var/www/dev.rozak.net/robot/inc/robot.php'; //SESUAIKAN
 
-$robot = new robot('1378138234:AAGPOYw73h5E0TafKtRFx9Rnig1P3tkEsLM', '@utarabot');
+$robot = new robot('API', 'userbot'); //SESUAIKAN
 
-// Simple answer
+// Simple
 $robot->cmd('*', 'Hi, human! I am a bot.');
 
-// Simple echo command
-$robot->cmd('/echo|/say', function ($text) {
+// Simple echo
+$robot->cmd('echo|say', function ($text) {
     if ($text == '') {
         $text = 'Command usage: /echo [text] or /say [text]';
     }
@@ -16,8 +16,8 @@ $robot->cmd('/echo|/say', function ($text) {
     return Bot::sendMessage($text);
 });
 
-// Simple whoami command
-$robot->cmd('mi', function () {
+// Whoami
+$robot->cmd('whoami', function () {
     // Get message properties
     $message = Bot::message();
     $name = $message['from']['first_name'];
@@ -31,8 +31,8 @@ $robot->cmd('mi', function () {
     return Bot::sendMessage($text, $options);
 });
 
-// slice text by space
-$robot->cmd('/split', function ($one, $two, $three) {
+// split
+$robot->cmd('split', function ($one, $two, $three) {
     $text = "First word: $one\n";
     $text .= "Second word: $two\n";
     $text .= "Third word: $three";
@@ -40,7 +40,7 @@ $robot->cmd('/split', function ($one, $two, $three) {
     return Bot::sendMessage($text);
 });
 
-// simple file upload
+// Send document
 $robot->cmd('/upload', function () {
     $file = './composer.json';
 
@@ -48,10 +48,10 @@ $robot->cmd('/upload', function () {
 });
 
 // inline keyboard
-$robot->cmd('kyb', function () {
+$robot->cmd('inline', function () {
     $keyboard[] = [
-        ['text' => 'PHPTelebot', 'url' => 'https://github.com/radyakaze/phptelebot'],
-        ['text' => 'Haru bot', 'url' => 'https://telegram.me/harubot'],
+        ['text' => 'BLOG', 'url' => 'https://go.rozak.net/blog'],
+        ['text' => 'Telegram', 'url' => 'https://telegram.me/rozakdotnet'],
     ];
     $options = [
         'reply_markup' => ['inline_keyboard' => $keyboard],
@@ -60,7 +60,7 @@ $robot->cmd('kyb', function () {
     return Bot::sendMessage('Inline keyboard', $options);
 });
 
-// custom regex
+// regex
 $robot->regex('/\/number ([0-9]+)/i', function ($matches) {
     return Bot::sendMessage($matches[1]);
 });
